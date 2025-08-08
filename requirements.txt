@@ -1,0 +1,7 @@
+streamlit
+python-dotenv
+google-generativeai
+librosa
+torch
+torchaudio
+numpy
