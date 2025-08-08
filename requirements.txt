@@ -1,6 +1,6 @@
 streamlit
 python-dotenv
-google-generativeai
+google-genai
 librosa
 torch
 torchaudio
