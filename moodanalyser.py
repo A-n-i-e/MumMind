@@ -94,7 +94,8 @@ if audio_file:
     cry_response = model.generate_content(cry_analysis_prompt)
     
     st.session_state.messages.append({"role": "assistant", "content": "I just heard your baby's cry."})  
-    st.session_state.messages.append({"role": "assistant", "content": cry_response.text})  
+    st.session_state.messages.append({"role": "assistant", "content": cry_response.text}) 
+    st.rerun() 
 
     
 
