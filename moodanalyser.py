@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 import os
 import google.generativeai as genai
 import streamlit as st
-import tempfile
 from babycry_spectro import analyze_cry
 
 # Load environment variables from .env file
@@ -38,12 +37,15 @@ Important: Don’t label her emotion directly (e.g., "You're sad.") — instead,
 She should feel like she’s chatting with someone who gets it, not a therapist or a robot.
 '''
 
+
+
 st.set_page_config(page_title="Mum's Mind", page_icon="💕")
 st.title("Mum's Mind. A space to be heard")
 st.caption("We see you and hear you, mama mi!")
 
+st.divider()
 audio_file = st.file_uploader("Record your baby's cry", type=["wav"])
-st.markdown("---------------")
+st.divider()
 
 
 model = genai.GenerativeModel(
@@ -90,6 +92,8 @@ if audio_file:
     """
     
     cry_response = model.generate_content(cry_analysis_prompt)
+    
+    st.session_state.messages.append({"role": "assistant", "content": "I just heard your baby's cry."})  
     st.session_state.messages.append({"role": "assistant", "content": cry_response.text})  
 
     
