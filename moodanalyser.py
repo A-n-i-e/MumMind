@@ -64,11 +64,13 @@ def generate_check_in_question():
     st.session_state.messages.append({"role": "assistant", "content": response.text})
 
 
+if "cry_analysis_done" not in st.session_state:
+    st.session_state.cry_analysis_done = False
 
-if audio_file:
+if audio_file and not st.session_state.cry_analysis_done:
     with st.spinner("Analyzing your baby's cry..."):
         label, confidence = analyze_cry(audio_file)
-        # print(f"Predicted cry: {label} ({confidence*100:.2f}%)")
+        print(f"Predicted cry: {label} ({confidence*100:.2f}%)")
 
     cry_analysis_prompt = f"""
     You're a kind, emotionally-aware virtual companion for new Nigerian mothers, in line with your persona.
@@ -90,14 +92,19 @@ if audio_file:
 
     Respond directly to the mother, as if you just heard the cry.
     """
-    
-    cry_response = model.generate_content(cry_analysis_prompt)
-    
-    st.session_state.messages.append({"role": "assistant", "content": "I just heard your baby's cry."})  
-    st.session_state.messages.append({"role": "assistant", "content": cry_response.text}) 
-    st.rerun() 
 
-    
+    cry_response = model.generate_content(cry_analysis_prompt)
+
+    st.session_state.messages.append({"role": "assistant", "content": "I just heard your baby's cry."})
+    st.session_state.messages.append({"role": "assistant", "content": cry_response.text})
+
+    st.session_state.cry_analysis_done = True
+    st.rerun()
+
+
+if audio_file and st.session_state.get("last_uploaded") != audio_file.name:
+    st.session_state.cry_analysis_done = False
+    st.session_state.last_uploaded = audio_file.name
 
 
 # Initialize chat history in Streamlit's session state
@@ -143,7 +150,7 @@ if query := st.chat_input("Hello, Mum! How are you feeling today?"):
     st.session_state.show_check_in_button = True
 
 
-# Show button only if last interaction is complete
+# Show check in button only if last interaction is complete
 if st.session_state.get("show_check_in_button", False):  
     col1, col2 = st.columns([3, 1])
     with col2:
@@ -153,9 +160,8 @@ if st.session_state.get("show_check_in_button", False):
             st.session_state.show_check_in_button = False  
 
             st.rerun()
-
-
-
-
-
     
+
+if audio_file and st.session_state.get("last_uploaded") != audio_file.name:
+    st.session_state.cry_analysis_done = False
+    st.session_state.last_uploaded = audio_file.name

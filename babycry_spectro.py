@@ -1,12 +1,10 @@
 import os
 import torch
-import torchaudio
-import torchaudio.transforms as T
 import librosa
 import numpy as np
 
 # Label classes
-classes = ['hungry', 'burping', 'discomfort', 'belly_pain', 'tired']
+classes = ['belly_pain', 'burping', 'discomfort', 'hungry', 'tired']
 
 
 
@@ -82,7 +80,7 @@ def analyze_cry(audio_path):
 
 
 
-label, confidence = analyze_cry("donateacry_corpus/hungry/2EE636FB-BD76-4118-A0EF-82FAFC32301F-1436586600-1.1-f-04-hu.wav")
-print(f"Predicted cry: {label} ({confidence*100:.2f}%)")
+# label, confidence = analyze_cry("donateacry_corpus/hungry/2EE636FB-BD76-4118-A0EF-82FAFC32301F-1436586600-1.1-f-04-hu.wav")
+# print(f"Predicted cry: {label} ({confidence*100:.2f}%)")
 
 
