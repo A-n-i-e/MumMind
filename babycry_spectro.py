@@ -37,7 +37,7 @@ class CryClassifier(torch.nn.Module):
 
 
 # Load model weights
-model_path = 'infant_cry_model_state.pt'
+model_path = 'infant_cry_model_state_v2.pt'
 model = CryClassifier()
 model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
 model.eval()
